@@ -41,7 +41,7 @@ GPT 3.5 ON STEROID incorporates various Python functions that GPT can call and u
 
 ## Contribution Guidelines
 
-We welcome contributions from the community to make AutoGPT even better! Please follow these guidelines:
+We welcome contributions from the community to make GPT 3.5 ON STEROID even better! Please follow these guidelines:
 
 1. **Fork the repository and create your branch:** `git checkout -b feature/new-contribution`
 2. **Make your changes and test thoroughly.**
