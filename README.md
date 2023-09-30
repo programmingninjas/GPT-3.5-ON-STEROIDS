@@ -59,4 +59,4 @@ Celebrate Hacktoberfest with us! We encourage developers of all levels to partic
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md]([LICENSE.md](https://github.com/programmingninjas/GPT-3.5-ON-STEROIDS/blob/main/LICENSE)https://github.com/programmingninjas/GPT-3.5-ON-STEROIDS/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/programmingninjas/GPT-3.5-ON-STEROIDS/blob/main/LICENSE) file for details.
