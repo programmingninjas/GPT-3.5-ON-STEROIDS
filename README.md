@@ -27,7 +27,7 @@ streamlit run app.py
 
 ## Integrated Python Functions (Tools)
 
-AutoGPT incorporates various Python functions that GPT can call and use, including:
+GPT 3.5 ON STEROID incorporates various Python functions that GPT can call and use, including:
 
 - **Web Scraping:** Utilizing `google-serp-api` and `trafilatura` for dynamic data retrieval.
 - **Natural Language Processing:** Using `tiktoken` for language processing tasks.
