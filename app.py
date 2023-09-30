@@ -57,7 +57,7 @@ def google_tool(command):
       "first":1,
       "count":10,
       "num":4,
-      "api_key": "3760915d3618b0e6c2b20f64a79de5c3349a4a950fdd92eb304c95b82f7a96fc"
+      "api_key": "Your Serp API key"
     }
 
   search = GoogleSearch(params)
@@ -86,7 +86,7 @@ tools = {"google":google_tool,"browse_website":browse_website,"write_to_file":wr
 
 now = datetime.now()
 
-openai.api_key = "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"
+openai.api_key = "Your OpenAPI key"
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
