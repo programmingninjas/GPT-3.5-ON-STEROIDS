@@ -43,11 +43,23 @@ GPT 3.5 ON STEROID incorporates various Python functions that GPT can call and u
 
 We welcome contributions from the community to make GPT 3.5 ON STEROID even better! Please follow these guidelines:
 
-1. **Fork the repository and create your branch:** `git checkout -b feature/new-contribution`
-2. **Make your changes and test thoroughly.**
-3. **Commit your changes:** `git commit -m "Add a brief description of your changes"`
-4. **Push to your forked repository:** `git push origin feature/new-contribution`
-5. **Create a pull request to the main repository.**
+1. **Create an Issue:** First, create an issue detailing the feature, bug fix, or improvement you plan to work on. Wait for approval and assignment before proceeding to the next step.
+
+2. **Assign Yourself:** After your issue is approved, get yourself assigned to it. This helps avoid duplication of efforts and ensures everyone is aware of ongoing work.
+
+3. **Create a Pull Request (PR):** Once assigned, proceed to create your PR. Ensure to mention the assigned issue number in the PR description to link it properly.
+
+**Note:** PRs without assigned issues will be considered spammy and may lead to disqualification.
+
+4. **Fork the repository and create your branch:** `git checkout -b feature/new-contribution`
+    
+5. **Make your changes and test thoroughly.**
+   
+6. **Commit your changes:** `git commit -m "Add a brief description of your changes"`
+   
+7. **Push to your forked repository:** `git push origin feature/new-contribution`
+    
+8. **Create a pull request to the main repository.**
 
 ### Code of Conduct
 
