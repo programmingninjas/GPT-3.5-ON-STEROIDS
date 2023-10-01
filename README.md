@@ -2,7 +2,7 @@
 
 Welcome to GPT 3.5 ON STEROID, an open-source project that enhances the capabilities of GPT by integrating it with various Python libraries and APIs for advanced text generation.
 
-## Requirements
+## TechStack/framework used
 
 Make sure you have the following Python libraries installed:
 - `openai`
@@ -12,6 +12,16 @@ Make sure you have the following Python libraries installed:
 - `trafilatura`
 - `streamlit`
 - `google-search-results`
+
+### or
+
+#  Prerequisites
+All the dependencies and required libraries are included in the file requirements.txt 
+Run the following command in your Terminal/Command Prompt to install the libraries required
+```
+$ pip3 install -r requirements.txt
+
+```
 
 Additionally, you'll need API keys for the following services:
 - [SerpAPI](https://serpapi.com/)
