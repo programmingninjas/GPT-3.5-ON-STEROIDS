@@ -12,8 +12,15 @@ Make sure you have the following Python libraries installed:
 - `trafilatura`
 - `streamlit`
 - `google-search-results`
+## Installation
 
-Additionally, you'll need API keys for the following services:
+To install the required packages, run the following command in your terminal:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Additionally, you'll need API keys for the following services:
 - [SerpAPI](https://serpapi.com/)
 - [OpenAI](https://openai.com/)
 
