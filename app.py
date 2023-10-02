@@ -128,7 +128,7 @@ if prompt:
     chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=init_messages,temperature=0)
     reply = chat.choices[0].message.content
 
-    prompt1 = '''
+        prompt1 = f'''
     {reply}
 
 
@@ -167,21 +167,21 @@ if prompt:
 
     You should only respond in JSON format as described below
     Response Format:
-    {
-        "thoughts": {
+    {{
+        "thoughts": {{
             "text": "thought",
             "reasoning": "reasoning",
             "plan": "- short bulleted\n- list that conveys\n- long-term plan",
             "criticism": "constructive self-criticism",
             "speak": "thoughts summary to say to user"
-        },
-        "command": {
+        }},
+        "command": {{
             "name": "command name",
-            "args": {
+            "args": {{
                 "arg name": "value"
-            }
-        }
-    }
+            }}
+        }}
+    }}
     Ensure the response can be parsed by Python json.loads
 
 
