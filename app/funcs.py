@@ -10,6 +10,7 @@ from serpapi import GoogleSearch
 from trafilatura import fetch_url, extract
 from consts import (
     SERP_API_KEY,
+    TOKEN_LIMIT,
     encoding,
 )
 
@@ -73,7 +74,7 @@ def open_file(command) -> str:
 
 
 def browse_website(command) -> str:
-    """Browse website and extract main content upto 4000 tokens
+    """Browse website and extract main content upto TOKEN_LIMIT tokens
     Args:
         command: a dictionary containing "url" to the website
     Returns
@@ -85,13 +86,13 @@ def browse_website(command) -> str:
     # output main content and comments as plain text
     result = extract(downloaded, output_format="json")
 
-    if len(encoding.encode(str(result))) < 4000:
+    if len(encoding.encode(str(result))) < TOKEN_LIMIT:
         return "Command browse_website returned: " + str(result)
-    return "Command browse_website returned: " + str(result)[:4000]
+    return "Command browse_website returned: " + str(result)[:TOKEN_LIMIT]
 
 
 def google_tool(command) -> str:
-    """Searches google for query and returns upto 4000 tokens of results
+    """Searches google for query and returns upto TOKEN_LIMIT tokens of results
     Args:
         command: a dictionary containing "query"
     Returns:
@@ -121,9 +122,9 @@ def google_tool(command) -> str:
         results = search.get_dict()
 
     response = json.dumps(organic_results, indent=2, ensure_ascii=False)
-    if len(encoding.encode(response)) < 4000:
+    if len(encoding.encode(response)) < TOKEN_LIMIT:
         return "Command google returned: " + response
-    return "Command google returned: " + response[:4000]
+    return "Command google returned: " + response[:TOKEN_LIMIT]
 
 
 def type_message(text) -> None:
