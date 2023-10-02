@@ -1,11 +1,10 @@
 """
 This is where the program starts
 """
-
-import openai
 import time
 import json
 import sys
+import openai
 import streamlit as st
 from consts import OPENAI_API_KEY, SETUP_PROMPT, INSTRUCTION_PROMPT, now
 from funcs import (
@@ -16,6 +15,8 @@ from funcs import (
     read_file,
     open_file,
     search_wiki,
+    type_message,
+    ask_gpt,
 )
 
 # TOOLS
@@ -30,7 +31,11 @@ tools = {
 }
 
 
+# MAIN
 def main():
+    """
+    Starting point of the program.
+    """
     # INITIAL SETUP
     st.title("GPT-3.5 on Steroids")
     openai.api_key = OPENAI_API_KEY
@@ -51,42 +56,41 @@ def main():
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    init_messages = [{"role": "system", "content": SETUP_PROMPT}]
-    init_messages.append(
+    init_messages = [
+        {"role": "system", "content": SETUP_PROMPT},
         {"role": "user", "content": prompt},
-    )
-    chat = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=init_messages, temperature=0
-    )
-    reply = chat.choices[0].message.content
-    prompt1 = f"{reply}\n{INSTRUCTION_PROMPT}\nThe current time and date is {now}"
+    ]
+    # FIRST REPLY
+    reply = ask_gpt(init_messages)
 
-    init_messages.append(
-        {"role": "system", "content": prompt1},
-    )
-    init_messages.append(
+    prompt1 = f"{reply}\n{INSTRUCTION_PROMPT}\nThe current time and date is {now}"
+    init_messages += [
+        {
+            "role": "system",
+            "content": prompt1,
+        },
         {
             "role": "user",
-            "content": "Determine which next command to use, and respond using the format specified above:",
-        }
-    )
-    init_chat = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=init_messages, temperature=0
-    )
-    init_reply = json.loads(
-        init_chat.choices[0].message.content, strict=False
-    )  # converting response to json
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
-        full_response = ""
-        for response in init_reply["thoughts"]["text"]:
-            full_response += response
-            time.sleep(0.02)
-            message_placeholder.markdown(full_response + "▌")
-        message_placeholder.markdown(full_response)
+            "content": "Determine which next command to use, and respond using the \
+                format specified above:",
+        },
+    ]
 
-    def execute(reply):
+    # SECOND REPLY
+    init_reply = json.loads(ask_gpt(init_messages), strict=False)
+
+    # DISPLAYING THE OUTPUT TO THE USER
+    type_message(init_reply["thoughts"]["text"])
+
+    def execute(reply) -> str:
+        """This is a recursive function which lets GPT run tools provided to it when it needs them.
+        Args:
+            reply: a dictionary which contains information like thoughts and which tool to use
+        Returns:
+            str: returns "task_completed" after running completely
+        """
         if reply["command"]["name"] == "task_complete":
+            print("GPT Has done its work.")
             return "task_completed"
         try:
             time.sleep(5)
@@ -96,47 +100,32 @@ def main():
                     "role": "system",
                     "content": prompt1
                     + "\n"
-                    + "This reminds you of these events from your past:\nI was created and nothing new has happened.",
-                }
-            ]
-            messages.append(
+                    + "This reminds you of these events from your past:\n\
+                        I was created and nothing new has happened.",
+                },
                 {
                     "role": "user",
-                    "content": "Determine which next command to use, and respond using the format specified above:",
-                }
-            )
-            messages.append({"role": "assistant", "content": json.dumps(reply)})
-            messages.append(
+                    "content": "Determine which next command to use, \
+                        and respond using the format specified above:",
+                },
+                {"role": "assistant", "content": json.dumps(reply)},
                 {
                     "role": "system",
                     "content": f"Command {reply['command']['name']} returned: "
                     + result,
-                }
-            )
-            messages.append(
+                },
                 {
                     "role": "user",
-                    "content": "Determine which next command to use, and respond using the format specified above:",
-                }
-            )
-            chat = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo", messages=messages, temperature=0
-            )
-            reply = json.loads(chat.choices[0].message.content, strict=False)
-            with st.chat_message("assistant"):
-                message_placeholder = st.empty()
-                full_response = ""
-                for response in reply["thoughts"]["text"]:
-                    full_response += response
-                    time.sleep(0.02)
-                    message_placeholder.markdown(full_response + "▌")
-                message_placeholder.markdown(full_response)
-            execute(reply)
-        except Exception as e:
-            with st.chat_message("assistant"):
-                st.markdown(e)
-                st.markdown("Task aborted due to above error.")
-                return "task_completed"
+                    "content": "Determine which next command to use, \
+                        and respond using the format specified above:",
+                },
+            ]
+            reply = json.loads(ask_gpt(messages), strict=False)
+            type_message(reply["thoughts"]["text"])
+
+        except Exception as error:
+            type_message(f"Task aborted due to error: {error}")
+            return "task_completed"
 
     execute(init_reply)
 

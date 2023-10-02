@@ -2,8 +2,8 @@
 This module includes variables like api keys and prompts
 """
 import os
-import tiktoken
 from datetime import datetime
+import tiktoken
 from dotenv import load_dotenv
 
 # LOADING DOTENV
@@ -48,7 +48,7 @@ INSTRUCTION_PROMPT = """
     2. wikipedia: Wikipedia Search, args: "query": "<query>"
     3. browse_website: Browse website, args: "url": "<url>", "question": "<what_you_want_to_find_on_website>"
     4. write_to_file: Write to file, args: "filename": "<filename>", "text": "<text>"
-    5. open_file: Open file, args: "path": "<path>"
+    5. open_file: Provide file to user for download, args: "path": "<path>"
     6. append_to_file: Append to file, args: "filename": "<filename>", "text": "<text>"
     7. read_file: Read a file only after creation, args: "filename": "<filename>"
     8. task_complete: Task Complete (Shutdown), args: "reason": "<reason>"
