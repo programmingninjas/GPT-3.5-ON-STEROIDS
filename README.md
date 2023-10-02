@@ -66,7 +66,7 @@ We welcome contributions from the community to make GPT 3.5 ON STEROID even bett
    
 7. **Push to your forked repository:** `git push origin feature/new-contribution`
     
-8. **Create a pull request to the main repository.**
+8. **Create a pull request to the main repository with proof of work attached.**
 
 ### Code of Conduct
 
