@@ -5,3 +5,4 @@ wikipedia
 trafilatura
 streamlit
 google-search-results
+python-dotenv
