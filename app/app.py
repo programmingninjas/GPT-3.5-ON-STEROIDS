@@ -122,6 +122,7 @@ def main():
             ]
             reply = json.loads(ask_gpt(messages), strict=False)
             type_message(reply["thoughts"]["text"])
+            execute(reply)
 
         except Exception as error:
             type_message(f"Task aborted due to error: {error}")
