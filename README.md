@@ -12,6 +12,7 @@ Make sure you have the following Python libraries installed:
 - `trafilatura`
 - `streamlit`
 - `google-search-results`
+- `python-dotenv`
 ## Installation
 
 To install the required packages, run the following command in your terminal:
@@ -29,7 +30,7 @@ pip install -r requirements.txt
 To run the Streamlit application, execute the following command in your terminal:
 
 ```bash
-streamlit run app.py
+streamlit run ./app/app.py
 ```
 
 ## Integrated Python Functions (Tools)
