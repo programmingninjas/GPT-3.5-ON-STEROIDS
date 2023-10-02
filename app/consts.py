@@ -38,10 +38,9 @@ INSTRUCTION_PROMPT = """
     Constraints:
     1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.
     2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.
-    3. If you are unsure about something, don't hallucinate the file paths or commands, stick to the instruction provided 
-    4. No user assistance
-    5. Don't stuck into recursion i.e dont't repeat responses
-    6. Exclusively use the commands listed in double quotes e.g. "command name"
+    3. No user assistance
+    4. Don't read the file without creating one using write_file command.
+    5. Exclusively use the commands listed in double quotes e.g. "command name"
 
     Commands:
     1. google: Google Search, args: "query": "<query>"
