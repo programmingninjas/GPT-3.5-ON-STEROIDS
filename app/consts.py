@@ -51,6 +51,8 @@ INSTRUCTION_PROMPT = """
     6. append_to_file: Append to file, args: "filename": "<filename>", "text": "<text>"
     7. read_file: Read a file only after creation, args: "filename": "<filename>"
     8. task_complete: Task Complete (Shutdown), args: "reason": "<reason>"
+    9. get_youtube_transcript: Returns subtitles of the specified YouTube video, args: "video_id": "<youtube-video-id-as-a-string>" 
+    10. type_message: Displays message to the user (only to be used if the answer is final), args: "text": "<text-to-be-displayed>"
 
     Resources:
     1. Internet access for searches and information gathering.
@@ -87,6 +89,6 @@ INSTRUCTION_PROMPT = """
 """
 
 # OTHER
-TOKEN_LIMIT=3500
+TOKEN_LIMIT=3200
 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 now = datetime.now()

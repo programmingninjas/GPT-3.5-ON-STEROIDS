@@ -6,3 +6,4 @@ trafilatura
 streamlit
 google-search-results
 python-dotenv
+youtube-transcript-api

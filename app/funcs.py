@@ -7,6 +7,7 @@ import wikipedia
 import openai
 import streamlit as st
 from serpapi import GoogleSearch
+from youtube_transcript_api import YouTubeTranscriptApi
 from trafilatura import fetch_url, extract
 from consts import (
     SERP_API_KEY,
@@ -22,6 +23,7 @@ def search_wiki(command) -> str:
     Returns:
         str: results returned by wikipedia
     """
+    print("Search wiki called")
     return "Command wikipedia returned: " + wikipedia.summary(command["query"])
 
 
@@ -32,6 +34,7 @@ def write_to_file(command) -> str:
     Returns:
         str: success message
     """
+    print("Write to file called")
     with open(command["filename"], "w", encoding="utf-8") as file:
         file.write(command["text"])
     return "Command write_to_file returned: File was written successfully"
@@ -44,6 +47,7 @@ def append_to_file(command) -> str:
     Returns:
         str: success message
     """
+    print("Append to file called")
     with open(command["filename"], "a", encoding="utf-8") as file:
         file.write(command["text"])
     return "Command append_to_file returned: File was appended successfully"
@@ -56,6 +60,7 @@ def read_file(command) -> str:
     Returns:
         str: text stored in the file
     """
+    print("Read file called")
     with open(command["filename"], "r", encoding="utf-8") as file:
         data = file.read()
         return f"Command read_file returned: {data}"
@@ -68,6 +73,7 @@ def open_file(command) -> str:
     Returns:
         str: a success message
     """
+    print("Open file called")
     with open(command["path"], "r", encoding="utf-8") as file:
         st.download_button("Open File", file, file_name=command["path"])
     return "Command open_file returned: File was opened successfully"
@@ -80,6 +86,7 @@ def browse_website(command) -> str:
     Returns
         str: the content of that website in json format
     """
+    print("Browse website called")
     # grab a HTML file to extract data from
     downloaded = fetch_url(command["url"])
 
@@ -98,6 +105,7 @@ def google_tool(command) -> str:
     Returns:
         str: response in json format
     """
+    print("Google tool called")
     params = {
         "q": str(command["query"]),
         "location": "Delhi,India",
@@ -127,17 +135,18 @@ def google_tool(command) -> str:
     return "Command google returned: " + response[:TOKEN_LIMIT]
 
 
-def type_message(text) -> None:
+def type_message(command) -> None:
     """Displays text on the screen with a typewriter effect
     Args:
         text: any string
     Returns:
         None
     """
+    print("Type message called")
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
-        for response in text:
+        for response in command["text"]:
             full_response += response
             time.sleep(0.02)
             message_placeholder.markdown(full_response + "▌")
@@ -155,3 +164,22 @@ def ask_gpt(messages) -> str:
         model="gpt-3.5-turbo", messages=messages, temperature=0
     )
     return reply.choices[0].message.content
+
+
+def get_youtube_transcript(command) -> str:
+    """Fetches transcripts from YouTube videos
+    Args:
+        url: the url of the YouTube video
+    Returns:
+        str: transcript of the video
+    """
+    print("Get youtube transcript called")
+    try:
+        srt_dictionary = YouTubeTranscriptApi.get_transcript(command["video_id"])
+        srt_text = " ".join(x["text"] for x in srt_dictionary)
+        if len(encoding.encode(srt_text)) < TOKEN_LIMIT:
+            return f"Here are the video subtitles: \"{srt_text}\""
+        return f"Here are the video subtitles: \"{srt_text}\""[:TOKEN_LIMIT]
+    except Exception as error:
+        print("ERROR", error)
+        return "The video does not have any subtitles"
