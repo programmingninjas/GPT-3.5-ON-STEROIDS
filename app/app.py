@@ -17,6 +17,7 @@ from funcs import (
     search_wiki,
     type_message,
     ask_gpt,
+    get_youtube_transcript
 )
 
 # TOOLS
@@ -28,6 +29,8 @@ tools = {
     "read_file": read_file,
     "open_file": open_file,
     "wikipedia": search_wiki,
+    "get_youtube_transcript": get_youtube_transcript,
+    "type_message": type_message
 }
 
 
@@ -80,7 +83,7 @@ def main():
     init_reply = json.loads(ask_gpt(init_messages), strict=False)
 
     # DISPLAYING THE OUTPUT TO THE USER
-    type_message(init_reply["thoughts"]["text"])
+    type_message({"text": init_reply["thoughts"]["text"]})
 
     def execute(reply) -> str:
         """This is a recursive function which lets GPT run tools provided to it when it needs them.
@@ -121,11 +124,11 @@ def main():
                 },
             ]
             reply = json.loads(ask_gpt(messages), strict=False)
-            type_message(reply["thoughts"]["text"])
+            type_message({"text": reply["thoughts"]["text"]})
             execute(reply)
 
         except Exception as error:
-            type_message(f"Task aborted due to error: {error}")
+            type_message({"text": f"Task aborted due to error: {error}"})
             return "task_completed"
 
     execute(init_reply)
