@@ -166,7 +166,7 @@ def ask_gpt(messages) -> str:
     return reply.choices[0].message.content
 
 
-def get_youtube_transcript(command) -> str:
+def youtube_transcript(command) -> str:
     """Fetches transcripts from YouTube videos
     Args:
         url: the url of the YouTube video
