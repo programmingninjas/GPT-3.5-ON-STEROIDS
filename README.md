@@ -2,6 +2,10 @@
 
 Welcome to GPT 3.5 ON STEROID, an open-source project that enhances the capabilities of GPT by integrating it with various Python libraries and APIs for advanced text generation.
 
+<p align="center">
+<img src="https://github.com/programmingninjas/GPT-3.5-ON-STEROIDS/assets/67486606/ef247f1c-369b-49ca-8a00-65a3e27c2583" al width=500>
+</p>
+
 ## Requirements
 
 Make sure you have the following Python libraries installed:
