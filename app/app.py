@@ -17,7 +17,8 @@ from funcs import (
     search_wiki,
     type_message,
     ask_gpt,
-    get_youtube_transcript
+    get_youtube_transcript,
+    getText
 )
 
 # TOOLS
@@ -50,11 +51,16 @@ def main():
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
+
+    #UPLOADING FILE
+    uploaded_file = st.file_uploader("Choose a file")
+    if uploaded_file:
+        st.write(getText(uploaded_file))
+
     # GETTING USER PROMPT
     prompt = st.chat_input("Enter Task")
     if not prompt:
         sys.exit()
-
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
