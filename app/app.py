@@ -18,7 +18,7 @@ from funcs import (
     type_message,
     ask_gpt,
     get_youtube_transcript,
-    getText
+    getData
 )
 
 # TOOLS
@@ -52,10 +52,8 @@ def main():
             st.markdown(message["content"])
 
 
-    #UPLOADING FILE
-    uploaded_file = st.file_uploader("Choose a file")
-    if uploaded_file:
-        st.write(getText(uploaded_file))
+    # UPLOADING FILE
+    # uploaded_file = st.file_uploader("Choose a file",type=["pdf","docx","xlsx","png","csv"])
 
     # GETTING USER PROMPT
     prompt = st.chat_input("Enter Task")
