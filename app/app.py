@@ -17,8 +17,7 @@ from funcs import (
     search_wiki,
     type_message,
     ask_gpt,
-    file_uplaod,
-    getData,
+    analyse_uploaded_file,
     youtube_transcript
 )
 
@@ -43,6 +42,7 @@ def main():
     """
     # INITIAL SETUP
     st.title("GPT-3.5 on Steroids")
+    uploaded_file = st.file_uploader("If you want to analyse a file upload it before entering the task, Else ignore",type=["pdf","docx","xlsx","png","csv"])
     openai.api_key = OPENAI_API_KEY
 
     if "messages" not in st.session_state:
@@ -51,10 +51,6 @@ def main():
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
-
-
-    # UPLOADING FILE
-    # uploaded_file = st.file_uploader("Choose a file",type=["pdf","docx","xlsx","png","csv"])
 
     # GETTING USER PROMPT
     prompt = st.chat_input("Enter Task")
@@ -102,7 +98,10 @@ def main():
             return "task_completed"
         try:
             time.sleep(5)
-            result = tools[reply["command"]["name"]](reply["command"]["args"])
+            if reply["command"]["name"] == "analyse_uploaded_file":
+                result = analyse_uploaded_file(uploaded_file)
+            else:
+                result = tools[reply["command"]["name"]](reply["command"]["args"])
             messages = [
                 {
                     "role": "system",

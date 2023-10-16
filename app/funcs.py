@@ -27,7 +27,11 @@ def search_wiki(command) -> str:
         str: results returned by wikipedia
     """
     print("Search wiki called")
-    return "Command wikipedia returned: " + wikipedia.summary(command["query"])
+    try:
+        return "Command wikipedia returned: " + wikipedia.summary(command["query"])
+    except Exception as error:
+        return f"Command wikipedia returned: {error}"
+
 
 
 def write_to_file(command) -> str:
@@ -64,9 +68,12 @@ def read_file(command) -> str:
         str: text stored in the file
     """
     print("Read file called")
-    with open(command["filename"], "r", encoding="utf-8") as file:
-        data = file.read()
-        return f"Command read_file returned: {data}"
+    try:
+        with open(command["filename"], "r", encoding="utf-8") as file:
+            data = file.read()
+            return f"Command read_file returned: {data}"
+    except Exception as error:
+        return f"Command read_file returned: {error}. First create this file."
 
 
 def open_file(command) -> str:
@@ -77,9 +84,12 @@ def open_file(command) -> str:
         str: a success message
     """
     print("Open file called")
-    with open(command["path"], "r", encoding="utf-8") as file:
-        st.download_button("Open File", file, file_name=command["path"])
-    return "Command open_file returned: File was opened successfully"
+    try:
+        with open(command["path"], "r", encoding="utf-8") as file:
+            st.download_button("Open File", file, file_name=command["path"])
+        return "Command open_file returned: File was opened successfully"
+    except Exception as error:
+        return f"Command open_file returned: {error}"
 
 
 def browse_website(command) -> str:
@@ -96,9 +106,13 @@ def browse_website(command) -> str:
     # output main content and comments as plain text
     result = extract(downloaded, output_format="json")
 
-    if len(encoding.encode(str(result))) < TOKEN_LIMIT:
-        return "Command browse_website returned: " + str(result)
-    return "Command browse_website returned: " + str(result)[:TOKEN_LIMIT]
+    try:
+        if len(encoding.encode(str(result))) < TOKEN_LIMIT:
+            return "Command browse_website returned: " + str(result)
+        return "Command browse_website returned: " + str(result)[:TOKEN_LIMIT]
+    except Exception as error:
+        return f"Command browse_website returned: {error}"
+    
 
 
 def google_tool(command) -> str:
@@ -133,10 +147,12 @@ def google_tool(command) -> str:
         results = search.get_dict()
 
     response = json.dumps(organic_results, indent=2, ensure_ascii=False)
-    if len(encoding.encode(response)) < TOKEN_LIMIT:
-        return "Command google returned: " + response
-    return "Command google returned: " + response[:TOKEN_LIMIT]
-
+    try:
+        if len(encoding.encode(response)) < TOKEN_LIMIT:
+            return "Command google returned: " + response
+        return "Command google returned: " + response[:TOKEN_LIMIT]
+    except Exception as error:
+        return f"Command google returned: {error}"
 
 def type_message(command) -> None:
     """Displays text on the screen with a typewriter effect
@@ -181,36 +197,40 @@ def youtube_transcript(command) -> str:
         srt_dictionary = YouTubeTranscriptApi.get_transcript(command["video_id"])
         srt_text = " ".join(x["text"] for x in srt_dictionary)
         if len(encoding.encode(srt_text)) < TOKEN_LIMIT:
-            return f"Here are the video subtitles: \"{srt_text}\""
-        return f"Here are the video subtitles: \"{srt_text}\""[:TOKEN_LIMIT]
+            return f"Command youtube_transcripts returned:  \"{srt_text}\""
+        return f"Command youtube_transcripts returned: \"{srt_text}\""[:TOKEN_LIMIT]
     except Exception as error:
-        print("ERROR", error)
-        return "The video does not have any subtitles"
+        return f"Command read_file returned: {error}"
 
 
-def getData(uploaded_file)->str:
-    '''The function extracts the data from docx , pdf and excel file 
-    1.for pdf and doc file it will return the text extracted from the file.
-    2.for excel it will convert the excel file into and object named ExcelFile which can be further used for analysis using pandas'''
-    extension = uploaded_file.name.split(".")[1]
+def analyse_uploaded_file(uploaded_file)->str:
+    """The function extracts the data from docx , pdf and excel files
+    Args:
+        uploaded_file: File uploaded via streamlit file_uploader 
+    Returns:
+        str: Data analysed from the file.
+    """
+    extension = uploaded_file.type
     text = ""
-    if extension=="pdf":
+    if extension=="application/pdf":
         reader = PdfReader(uploaded_file)
         pages = reader.pages
         for i in range(len(pages)):
             text+=pages[i].extract_text()
-    if extension=="docx":
+    if extension=="application/vnd.openxmlformats-officedocument.wordprocessingml.document":
         doc = Document(uploaded_file)
         for para in doc.paragraphs:
             text+=para.text
-    if extension=="xlsx":
+    if extension=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
         ExcelFile = pd.read_excel(uploaded_file)
         ExcelFile.to_csv()
-
-        st.write(ExcelFile)
-    if extension=="csv":
+        text = ExcelFile
+    if extension=="text/csv":
         df = pd.read_csv(uploaded_file)
-        return df.to_string()
-    if len(encoding.encode(str(text))) < TOKEN_LIMIT:
-         return "Command browse_website returned: " + str(text)
-    return "Command browse_website returned: " + str(text)[:TOKEN_LIMIT]
+        text = df.to_string()
+    try:
+        if len(encoding.encode(str(text))) < TOKEN_LIMIT:
+            return "Command analyse_uploaded_file returned: " + str(text)
+        return "Command analyse_uploaded_file returned: " + str(text)[:TOKEN_LIMIT]
+    except Exception as error:
+        return f"Command analyse_uploaded_file returned: {error}"

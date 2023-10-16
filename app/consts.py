@@ -38,7 +38,7 @@ INSTRUCTION_PROMPT = """
     Constraints:
     1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.
     2. No user assistance/input.
-    3. Don't read the file without creating one using write_file command.
+    3. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.
     4. Exclusively use the commands listed in double quotes e.g. "command name"
 
     Commands:
@@ -48,9 +48,10 @@ INSTRUCTION_PROMPT = """
     4. youtube_transcript: Returns transcript of the YouTube video, args: "video_id": "<youtube-video-id-from-url>"
     5. write_to_file: Write to file, args: "filename": "<filename>", "text": "<text>"
     6. open_file: Provide file to user for download, args: "path": "<path>"
-    7. append_to_file: Append to file, args: "filename": "<filename>", "text": "<text>"
-    8. read_file: Read a file only after creation, args: "filename": "<filename>"
-    9. task_complete: Task Complete (Shutdown), args: "reason": "<reason>"
+    7. analyse_uploaded_file: Provide file to you for analysis, args: None"
+    8. append_to_file: Append to file, args: "filename": "<filename>", "text": "<text>"
+    9. read_file: Read a file only after creation, args: "filename": "<filename>"
+    10. task_complete: Task Complete (Shutdown), args: "reason": "<reason>"
 
     Resources:
     1. Internet access for searches, information gathering and youtube transcripts.
@@ -87,6 +88,6 @@ INSTRUCTION_PROMPT = """
 """
 
 # OTHER
-TOKEN_LIMIT=3200
+TOKEN_LIMIT=2500
 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 now = datetime.now()
