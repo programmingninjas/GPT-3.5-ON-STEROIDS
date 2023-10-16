@@ -37,25 +37,23 @@ SETUP_PROMPT = """
 INSTRUCTION_PROMPT = """
     Constraints:
     1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.
-    2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.
-    3. No user assistance
-    4. Don't read the file without creating one using write_file command.
-    5. Exclusively use the commands listed in double quotes e.g. "command name"
+    2. No user assistance/input.
+    3. Don't read the file without creating one using write_file command.
+    4. Exclusively use the commands listed in double quotes e.g. "command name"
 
     Commands:
     1. google: Google Search, args: "query": "<query>"
     2. wikipedia: Wikipedia Search, args: "query": "<query>"
     3. browse_website: Browse website, args: "url": "<url>", "question": "<what_you_want_to_find_on_website>"
-    4. write_to_file: Write to file, args: "filename": "<filename>", "text": "<text>"
-    5. open_file: Provide file to user for download, args: "path": "<path>"
-    6. append_to_file: Append to file, args: "filename": "<filename>", "text": "<text>"
-    7. read_file: Read a file only after creation, args: "filename": "<filename>"
-    8. task_complete: Task Complete (Shutdown), args: "reason": "<reason>"
-    9. get_youtube_transcript: Returns subtitles of the specified YouTube video, args: "video_id": "<youtube-video-id-as-a-string>" 
-    10. type_message: Displays message to the user (only to be used if the answer is final), args: "text": "<text-to-be-displayed>"
+    4. youtube_transcript: Returns transcript of the YouTube video, args: "video_id": "<youtube-video-id-from-url>"
+    5. write_to_file: Write to file, args: "filename": "<filename>", "text": "<text>"
+    6. open_file: Provide file to user for download, args: "path": "<path>"
+    7. append_to_file: Append to file, args: "filename": "<filename>", "text": "<text>"
+    8. read_file: Read a file only after creation, args: "filename": "<filename>"
+    9. task_complete: Task Complete (Shutdown), args: "reason": "<reason>"
 
     Resources:
-    1. Internet access for searches and information gathering.
+    1. Internet access for searches, information gathering and youtube transcripts.
     2. Long Term memory management.
     3. GPT-3.5 powered Agents for delegation of simple tasks.
     4. File output.

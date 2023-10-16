@@ -17,8 +17,9 @@ from funcs import (
     search_wiki,
     type_message,
     ask_gpt,
-    get_youtube_transcript,
-    getData
+    file_uplaod,
+    getData,
+    youtube_transcript
 )
 
 # TOOLS
@@ -30,7 +31,7 @@ tools = {
     "read_file": read_file,
     "open_file": open_file,
     "wikipedia": search_wiki,
-    "get_youtube_transcript": get_youtube_transcript,
+    "youtube_transcript": youtube_transcript,
     "type_message": type_message
 }
 
