@@ -7,3 +7,7 @@ streamlit
 google-search-results
 python-dotenv
 youtube-transcript-api
+openpyxl
+PyPDF2
+python-docx
+pandas

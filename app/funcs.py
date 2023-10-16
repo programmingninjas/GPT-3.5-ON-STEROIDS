@@ -5,7 +5,10 @@ import time
 import json
 import wikipedia
 import openai
+from PyPDF2 import PdfReader
+from docx import Document
 import streamlit as st
+import pandas as pd
 from serpapi import GoogleSearch
 from youtube_transcript_api import YouTubeTranscriptApi
 from trafilatura import fetch_url, extract
@@ -183,3 +186,31 @@ def youtube_transcript(command) -> str:
     except Exception as error:
         print("ERROR", error)
         return "The video does not have any subtitles"
+
+
+def getData(uploaded_file)->str:
+    '''The function extracts the data from docx , pdf and excel file 
+    1.for pdf and doc file it will return the text extracted from the file.
+    2.for excel it will convert the excel file into and object named ExcelFile which can be further used for analysis using pandas'''
+    extension = uploaded_file.name.split(".")[1]
+    text = ""
+    if extension=="pdf":
+        reader = PdfReader(uploaded_file)
+        pages = reader.pages
+        for i in range(len(pages)):
+            text+=pages[i].extract_text()
+    if extension=="docx":
+        doc = Document(uploaded_file)
+        for para in doc.paragraphs:
+            text+=para.text
+    if extension=="xlsx":
+        ExcelFile = pd.read_excel(uploaded_file)
+        ExcelFile.to_csv()
+
+        st.write(ExcelFile)
+    if extension=="csv":
+        df = pd.read_csv(uploaded_file)
+        return df.to_string()
+    if len(encoding.encode(str(text))) < TOKEN_LIMIT:
+         return "Command browse_website returned: " + str(text)
+    return "Command browse_website returned: " + str(text)[:TOKEN_LIMIT]
