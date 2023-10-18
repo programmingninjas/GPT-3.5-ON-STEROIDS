@@ -9,11 +9,15 @@ from PyPDF2 import PdfReader
 from docx import Document
 import streamlit as st
 import pandas as pd
+from pandasai import SmartDataframe
+from pandasai.llm.openai import OpenAI
+from pandasai.middlewares import StreamlitMiddleware
 from serpapi import GoogleSearch
 from youtube_transcript_api import YouTubeTranscriptApi
 from trafilatura import fetch_url, extract
 from consts import (
     SERP_API_KEY,
+    OPENAI_API_KEY,
     TOKEN_LIMIT,
     encoding,
 )
@@ -203,10 +207,11 @@ def youtube_transcript(command) -> str:
         return f"Command read_file returned: {error}"
 
 
-def analyse_uploaded_file(uploaded_file)->str:
+def analyse_uploaded_file(uploaded_file,command)->str:
     """The function extracts the data from docx , pdf and excel files
     Args:
-        uploaded_file: File uploaded via streamlit file_uploader 
+        uploaded_file: File uploaded via streamlit file_uploader
+        command: Contains the query to perform on the File
     Returns:
         str: Data analysed from the file.
     """
@@ -221,13 +226,13 @@ def analyse_uploaded_file(uploaded_file)->str:
         doc = Document(uploaded_file)
         for para in doc.paragraphs:
             text+=para.text
-    if extension=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-        ExcelFile = pd.read_excel(uploaded_file)
-        ExcelFile.to_csv()
-        text = ExcelFile
-    if extension=="text/csv":
-        df = pd.read_csv(uploaded_file)
-        text = df.to_string()
+    if extension=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" or extension=="text/csv":
+        llm = OpenAI(api_token=OPENAI_API_KEY)
+        df = pd.read_excel(uploaded_file)
+        df = SmartDataframe(df,config={"llm":llm,"middlewares":[StreamlitMiddleware()]})
+        print(command["query"])
+        text = df.chat(command["query"])
+        print(text)
     try:
         if len(encoding.encode(str(text))) < TOKEN_LIMIT:
             return "Command analyse_uploaded_file returned: " + str(text)

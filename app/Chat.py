@@ -42,7 +42,6 @@ def main():
     """
     # INITIAL SETUP
     st.title("GPT-3.5 on Steroids")
-    uploaded_file = st.file_uploader("If you want to analyse a file upload it before entering the task, Else ignore",type=["pdf","docx","xlsx","png","csv"])
     openai.api_key = OPENAI_API_KEY
 
     if "messages" not in st.session_state:
@@ -99,7 +98,7 @@ def main():
         try:
             time.sleep(5)
             if reply["command"]["name"] == "analyse_uploaded_file":
-                result = analyse_uploaded_file(uploaded_file)
+                result = analyse_uploaded_file(st.session_state.uploaded_file,reply["command"]["args"])
             else:
                 result = tools[reply["command"]["name"]](reply["command"]["args"])
             messages = [
