@@ -18,6 +18,11 @@ Make sure you have the following Python libraries installed:
 - `google-search-results`
 - `python-dotenv`
 - `youtube-transcript-api`
+- `openpyxl`
+- `PyPDF2`
+- `python-docx`
+- `pandas`
+
 ## Installation
 
 To install the required packages, run the following command in your terminal:
