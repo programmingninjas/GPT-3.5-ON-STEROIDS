@@ -21,7 +21,7 @@ Make sure you have the following Python libraries installed:
 - `openpyxl`
 - `PyPDF2`
 - `python-docx`
-- `pandas`
+- `pandasai`
 
 ## Installation
 
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 To run the Streamlit application, execute the following command in your terminal:
 
 ```bash
-streamlit run ./app/app.py
+streamlit run ./app/Chat.py
 ```
 
 ## Integrated Python Functions (Tools)
