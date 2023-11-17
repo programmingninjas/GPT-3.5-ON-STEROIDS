@@ -42,7 +42,7 @@ def main():
     """
     # INITIAL SETUP
     st.title("GPT-3.5 on Steroids")
-    openai.api_key = OPENAI_API_KEY
+    
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
