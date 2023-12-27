@@ -98,7 +98,10 @@ def main():
         try:
             time.sleep(5)
             if reply["command"]["name"] == "analyse_uploaded_file":
-                result = analyse_uploaded_file(st.session_state.uploaded_file,reply["command"]["args"])
+                try:
+                    result = analyse_uploaded_file(st.session_state.uploaded_file,reply["command"]["args"])
+                except:
+                    result = "This command returned nothing"
             else:
                 result = tools[reply["command"]["name"]](reply["command"]["args"])
             messages = [
