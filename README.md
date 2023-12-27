@@ -83,10 +83,6 @@ We welcome contributions from the community to make GPT 3.5 ON STEROID even bett
 
 Please review our [Code of Conduct](CODE_OF_CONDUCT.md) to understand the community standards.
 
-## Join the Hacktoberfest Fun!
-
-Celebrate Hacktoberfest with us! We encourage developers of all levels to participate. Happy coding!
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/programmingninjas/GPT-3.5-ON-STEROIDS/blob/main/LICENSE) file for details.
