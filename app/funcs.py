@@ -13,7 +13,6 @@ import streamlit as st
 import pandas as pd
 from pandasai import SmartDataframe
 from pandasai.llm.openai import OpenAI
-from pandasai.middlewares import StreamlitMiddleware
 from serpapi import GoogleSearch
 from youtube_transcript_api import YouTubeTranscriptApi
 from trafilatura import fetch_url, extract
@@ -229,7 +228,7 @@ def analyse_uploaded_file(uploaded_file,command)->str:
     if extension=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" or extension=="text/csv":
         llm = OpenAI(api_token=OPENAI_API_KEY)
         df = pd.read_excel(uploaded_file)
-        df = SmartDataframe(df,config={"llm":llm,"middlewares":[StreamlitMiddleware()]})
+        df = SmartDataframe(df,config={"llm":llm})
         print(command["query"])
         text = df.chat(command["query"])
         print(text)
