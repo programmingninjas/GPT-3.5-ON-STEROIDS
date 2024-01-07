@@ -7,9 +7,14 @@ import wikipedia
 from openai import OpenAI
 
 client = OpenAI()
+import pytesseract
+import cv2
+import imutils
+from PIL import Image
 from PyPDF2 import PdfReader
 from docx import Document
 import streamlit as st
+import numpy as np
 import pandas as pd
 from pandasai import SmartDataframe
 from pandasai.llm.openai import OpenAI
@@ -232,6 +237,28 @@ def analyse_uploaded_file(uploaded_file,command)->str:
         print(command["query"])
         text = df.chat(command["query"])
         print(text)
+    if extension in ["image/png", "image/jpg", "image/jpeg"]:
+        img = Image.open(uploaded_file).convert("RGB")
+        nimg = np.array(img)
+        image = cv2.cvtColor(nimg, cv2.COLOR_BGR2RGB)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        kernel=np.ones((2,2),np.uint8)
+        im=cv2.dilate(gray,kernel,iterations=1)
+        im=cv2.bitwise_not(im)
+        coordinates=np.column_stack(np.where(im<255))
+        ang=cv2.minAreaRect(coordinates)[-1]
+        print(ang)
+        if ang<=90 and ang>0:
+            ang=90-ang
+        height,width=im.shape[:2]
+        centre=(width/2,height/2)
+        rot_mat=cv2.getRotationMatrix2D(centre,ang,1.0)
+        im=cv2.warpAffine(im,rot_mat,(width,height),borderMode=cv2.BORDER_REFLECT)
+        for i in range(im.shape[0]):
+            for j in range(im.shape[1]):
+                if im[i, j] >45:
+                    im[i, j] = 255  
+        text += pytesseract.image_to_string(im)
     try:
         if len(encoding.encode(str(text))) < TOKEN_LIMIT:
             return "Command analyse_uploaded_file returned: " + str(text)

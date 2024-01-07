@@ -1,2 +1,5 @@
 venv
+env
 app/__pycache__
+.env
+test.py

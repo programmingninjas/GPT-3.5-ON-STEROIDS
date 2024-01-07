@@ -11,3 +11,8 @@ openpyxl
 PyPDF2
 python-docx
 pandasai
+pillow
+pytesseract
+opencv-python
+numpy
+imutils
